@@ -1,11 +1,9 @@
 #pragma once
 
 #include <string>
-#include <vector>
-#include <map>
 #include <exception>
-#include <functional>
 #include <memory>
+#include <vector>
 
 namespace yayaml
 {
@@ -21,19 +19,18 @@ namespace yayaml
     {
         public:
             Node(const std::string& scalar);
-            //Node(const std::vector<Node>& vector);
-            //Node(const std::map<std::string, Node>& map);
+            Node(const std::vector<Node>& vector);
 
-            //Node(const Node&);
-
-            //const Node& operator[](unsigned idx) const;
-            //const Node& operator[](const std::string& key) const;
             operator const std::string&() const;
+            const Node& operator[](unsigned idx) const;
+
+            Node(const Node&) = default;
 
         private:
             enum class StorageType
             {
                 SCALAR,
+                SEQUENCE,
             };
 
             struct Storage
@@ -45,8 +42,9 @@ namespace yayaml
             };
 
             friend class ScalarStorage;
+            friend class SequenceStorage;
 
-            std::unique_ptr<Storage> storage;
+            std::shared_ptr<Storage> storage;
     };
 
 } // namespace yayaml

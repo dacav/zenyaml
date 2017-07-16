@@ -3,12 +3,10 @@
 
 int main()
 {
-    std::string astr = "hi";
-    std::cerr << "new String " << &astr << std::endl;
-    yayaml::Node n(astr);
+    yayaml::Node name1("hi");
+    yayaml::Node name2("there");
 
-    const std::string& lol = n;
+    yayaml::Node seq({ name1, name2 });
 
-    std::cerr << &lol << std::endl;
-    std::cerr << lol << std::endl;
+    std::cerr << std::string(seq[0]) << ' ' << std::string(seq[1]) << std::endl;
 }
