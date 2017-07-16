@@ -5,6 +5,7 @@
 #include <map>
 #include <exception>
 #include <functional>
+#include <memory>
 
 namespace yayaml
 {
@@ -30,9 +31,32 @@ namespace yayaml
             operator const std::string&() const;
 
         private:
-            std::function<const std::string*()> getter_scalar;
-            //std::function<const Node&(unsigned)> getter_sequence;
-            //std::function<const Node&(std::string)> getter_mapping;
+            enum class StorageType
+            {
+                SCALAR
+            };
+
+            struct Storage
+            {
+                Storage(StorageType type);
+                virtual ~Storage() = default;
+
+                StorageType type;
+            };
+
+            template <typename T>
+            struct StorageT : public Storage
+            {
+                StorageT(StorageType type)
+                    : Storage(type)
+                {
+                }
+                virtual T& get() = 0;
+            };
+
+            friend class ScalarStorage;
+
+            std::unique_ptr<Storage> storage;
     };
 
 } // namespace yayaml
