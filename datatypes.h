@@ -33,7 +33,7 @@ namespace yayaml
         private:
             enum class StorageType
             {
-                SCALAR
+                SCALAR,
             };
 
             struct Storage
@@ -42,16 +42,6 @@ namespace yayaml
                 virtual ~Storage() = default;
 
                 StorageType type;
-            };
-
-            template <typename T>
-            struct StorageT : public Storage
-            {
-                StorageT(StorageType type)
-                    : Storage(type)
-                {
-                }
-                virtual T& get() = 0;
             };
 
             friend class ScalarStorage;

@@ -1,23 +1,17 @@
-#include "datatypes.h"
-
+#include "datatypes.h" 
 #include <iostream> 
 #include <cassert>
 
 namespace yayaml
 {
-
-    struct ScalarStorage : Node::StorageT<std::string>
+    struct ScalarStorage : public Node::Storage
     {
         std::string string;
 
         ScalarStorage(const std::string& s)
-            : Node::StorageT<std::string>(Node::StorageType::SCALAR)
+            : Node::Storage(Node::StorageType::SCALAR)
             , string(s)
         { }
-
-        std::string& get() override {
-            return string;
-        }
     };
 
     Node::Storage::Storage(StorageType t)
@@ -32,15 +26,12 @@ namespace yayaml
 
     Node::operator const std::string&() const
     {
-        switch (storage->type) {
-            case Node::StorageType::SCALAR: {
-                ScalarStorage& s = dynamic_cast<ScalarStorage&>(*storage.get());
-                return s.get();
-            }
-            default:
-                assert(false);
-                return *this;
+        if (storage->type != Node::StorageType::SCALAR) {
+            throw NodeError("Not a scalar");
         }
+
+        ScalarStorage& s = dynamic_cast<ScalarStorage&>(*storage.get());
+        return s.string;
     }
 
 } // namespace yayaml
