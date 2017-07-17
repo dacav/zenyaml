@@ -9,7 +9,7 @@ namespace yayaml
         std::string string;
 
         ScalarStorage(const std::string& s)
-            : Node::Storage(Node::StorageType::SCALAR)
+            : Node::Storage(Node::NodeType::SCALAR)
             , string(s)
         { }
     };
@@ -19,7 +19,7 @@ namespace yayaml
         std::vector<Node> sequence;
 
         SequenceStorage(const std::vector<Node>& v)
-            : Node::Storage(Node::StorageType::SEQUENCE)
+            : Node::Storage(Node::NodeType::SEQUENCE)
             , sequence(v)
         { }
 
@@ -30,12 +30,12 @@ namespace yayaml
         std::map<std::string, Node> mapping;
 
         MappingStorage(const std::map<std::string, Node>& m)
-            : Node::Storage(Node::StorageType::MAPPING)
+            : Node::Storage(Node::NodeType::MAPPING)
             , mapping(m)
         { }
     };
 
-    Node::Storage::Storage(StorageType t)
+    Node::Storage::Storage(NodeType t)
         : type(t)
     {
     }
@@ -57,7 +57,7 @@ namespace yayaml
 
     Node::operator const std::string&() const
     {
-        if (storage->type != Node::StorageType::SCALAR) {
+        if (storage->type != Node::NodeType::SCALAR) {
             throw NodeError("Not a scalar");
         }
 
@@ -67,7 +67,7 @@ namespace yayaml
 
     const Node& Node::operator[](unsigned idx) const
     {
-        if (storage->type != Node::StorageType::SEQUENCE) {
+        if (storage->type != Node::NodeType::SEQUENCE) {
             throw NodeError("Not a sequence");
         }
         SequenceStorage& s = dynamic_cast<SequenceStorage&>(*storage.get());
@@ -76,7 +76,7 @@ namespace yayaml
 
     const Node& Node::operator[](const std::string& key) const
     {
-        if (storage->type != Node::StorageType::MAPPING) {
+        if (storage->type != Node::NodeType::MAPPING) {
             throw NodeError("Not a mapping");
         }
         MappingStorage& s = dynamic_cast<MappingStorage&>(*storage.get());

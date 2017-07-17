@@ -19,6 +19,13 @@ namespace yayaml
     class Node
     {
         public:
+            enum class NodeType
+            {
+                SCALAR,
+                SEQUENCE,
+                MAPPING,
+            };
+
             Node(const std::string& scalar);
             Node(const std::vector<Node>& vector);
             Node(const std::map<std::string, Node>& map);
@@ -31,19 +38,12 @@ namespace yayaml
             Node(const Node&) = default;
 
         private:
-            enum class StorageType
-            {
-                SCALAR,
-                SEQUENCE,
-                MAPPING,
-            };
-
             struct Storage
             {
-                Storage(StorageType type);
+                Storage(NodeType type);
                 virtual ~Storage() = default;
 
-                StorageType type;
+                NodeType type;
             };
 
             friend class ScalarStorage;
