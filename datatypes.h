@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-namespace yayaml
+namespace zenyaml
 {
     class NodeError : public std::runtime_error
     {
@@ -53,4 +53,4 @@ namespace yayaml
             std::shared_ptr<Storage> storage;
     };
 
-} // namespace yayaml
+} // namespace zenyaml

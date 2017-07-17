@@ -2,7 +2,7 @@
 #include <iostream> 
 #include <cassert>
 
-namespace yayaml
+namespace zenyaml
 {
     struct ScalarStorage : public Node::Storage
     {
@@ -83,4 +83,4 @@ namespace yayaml
         return s.mapping[key];
     }
 
-} // namespace yayaml
+} // namespace zenyaml
