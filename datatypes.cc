@@ -1,8 +1,6 @@
 #include "datatypes.h" 
 #include <iostream> 
 #include <cassert>
-#include <vector>
-#include <map>
 
 namespace yayaml
 {
@@ -27,6 +25,16 @@ namespace yayaml
 
     };
 
+    struct MappingStorage : public Node::Storage
+    {
+        std::map<std::string, Node> mapping;
+
+        MappingStorage(const std::map<std::string, Node>& m)
+            : Node::Storage(Node::StorageType::MAPPING)
+            , mapping(m)
+        { }
+    };
+
     Node::Storage::Storage(StorageType t)
         : type(t)
     {
@@ -39,6 +47,11 @@ namespace yayaml
 
     Node::Node(const std::vector<Node>& vector)
         : storage(std::make_shared<SequenceStorage>(vector))
+    {
+    }
+
+    Node::Node(const std::map<std::string, Node>& map)
+        : storage(std::make_shared<MappingStorage>(map))
     {
     }
 
@@ -59,6 +72,15 @@ namespace yayaml
         }
         SequenceStorage& s = dynamic_cast<SequenceStorage&>(*storage.get());
         return s.sequence[idx];
+    }
+
+    const Node& Node::operator[](const std::string& key) const
+    {
+        if (storage->type != Node::StorageType::MAPPING) {
+            throw NodeError("Not a mapping");
+        }
+        MappingStorage& s = dynamic_cast<MappingStorage&>(*storage.get());
+        return s.mapping[key];
     }
 
 } // namespace yayaml

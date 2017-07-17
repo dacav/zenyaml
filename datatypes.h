@@ -4,6 +4,7 @@
 #include <exception>
 #include <memory>
 #include <vector>
+#include <map>
 
 namespace yayaml
 {
@@ -20,10 +21,13 @@ namespace yayaml
         public:
             Node(const std::string& scalar);
             Node(const std::vector<Node>& vector);
+            Node(const std::map<std::string, Node>& map);
 
             operator const std::string&() const;
             const Node& operator[](unsigned idx) const;
+            const Node& operator[](const std::string& key) const;
 
+            Node() = default;
             Node(const Node&) = default;
 
         private:
@@ -31,6 +35,7 @@ namespace yayaml
             {
                 SCALAR,
                 SEQUENCE,
+                MAPPING,
             };
 
             struct Storage
@@ -43,6 +48,7 @@ namespace yayaml
 
             friend class ScalarStorage;
             friend class SequenceStorage;
+            friend class MappingStorage;
 
             std::shared_ptr<Storage> storage;
     };
