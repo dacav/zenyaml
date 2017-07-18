@@ -4,6 +4,12 @@
 
 namespace zenyaml
 {
+    Node::Storage::Storage(NodeType t)
+        : type(t)
+    {
+    }
+
+
     struct ScalarStorage : public Node::Storage
     {
         std::string string;
@@ -35,10 +41,6 @@ namespace zenyaml
         { }
     };
 
-    Node::Storage::Storage(NodeType t)
-        : type(t)
-    {
-    }
 
     Node::Node(const std::string& scalar)
         : storage(std::make_shared<ScalarStorage>(scalar))
