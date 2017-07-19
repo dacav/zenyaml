@@ -31,9 +31,14 @@ namespace zenyaml
             Node(const std::vector<Node>& vector);
             Node(const std::map<std::string, Node>& map);
 
-            std::map<std::string, Node>& get_mapping();
-            std::vector<Node>& get_sequence();
-            std::string& get_scalar();
+            std::map<std::string, Node>& get_mapping() const;
+            std::vector<Node>& get_sequence() const;
+            std::string& get_scalar() const;
+
+            const Node& operator[](unsigned idx) const;
+            const Node& operator[](const std::string& key) const;
+            const Node& operator[](const char* key) const;
+            operator const std::string&() const;
 
             Node() = default;
             Node(const Node&) = default;

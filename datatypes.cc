@@ -74,7 +74,7 @@ namespace zenyaml
     {
     }
 
-    std::string& Node::get_scalar()
+    std::string& Node::get_scalar() const
     {
         if (storage->type != Node::NodeType::SCALAR) {
             throw NodeError("Not a scalar");
@@ -82,7 +82,7 @@ namespace zenyaml
         return dynamic_cast<ScalarStorage&>(*storage.get()).string;
     }
 
-    std::vector<Node>& Node::get_sequence()
+    std::vector<Node>& Node::get_sequence() const
     {
         if (storage->type != Node::NodeType::SEQUENCE) {
             throw NodeError("Not a sequence");
@@ -90,12 +90,32 @@ namespace zenyaml
         return dynamic_cast<SequenceStorage&>(*storage.get()).sequence;
     }
 
-    std::map<std::string, Node>& Node::get_mapping()
+    std::map<std::string, Node>& Node::get_mapping() const
     {
         if (storage->type != Node::NodeType::MAPPING) {
             throw NodeError("Not a mapping");
         }
         return dynamic_cast<MappingStorage&>(*storage.get()).mapping;
+    }
+
+    const Node& Node::operator[](unsigned idx) const
+    {
+        return get_sequence()[idx];
+    }
+
+    const Node& Node::operator[](const std::string& key) const
+    {
+        return get_mapping()[key];
+    }
+
+    const Node& Node::operator[](const char* key) const
+    {
+        return get_mapping()[key];
+    }
+
+    Node::operator const std::string&() const
+    {
+        return get_scalar();
     }
 
 } // namespace zenyaml
