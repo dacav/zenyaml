@@ -1,0 +1,44 @@
+# Compiled Object files
+*.o
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Autotools
+INSTALL
+Makefile
+Makefile.in
+aclocal.m4
+autom4te.cache/
+compile
+config.log
+config.status
+configure
+depcomp
+install-sh
+missing
+test-driver
+autoscan.log
+ar-lib
+config.guess
+config.sub
+libtool
+ltmain.sh
+m4/
+zenyaml/.deps/
+zenyaml/.libs/
+zenyaml/datatypes.lo
+zenyaml/parser.lo
+zenyaml/config.h.in
+zenyaml/config.h
+zenyaml/stamp-h1
