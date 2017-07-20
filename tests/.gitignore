@@ -1,0 +1,4 @@
+.deps/
+basic_test
+*.log
+*.trs
