@@ -1,10 +1,8 @@
-#include "parser.h"
+#include <zenyaml/parser.h>
 
 #include <cerrno>
 #include <cstring>
 #include <cassert>
-
-#include <iostream> 
 
 namespace
 {

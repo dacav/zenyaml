@@ -1,5 +1,4 @@
-#include "datatypes.h" 
-#include <iostream> 
+#include <zenyaml/datatypes.h>
 #include <cassert>
 
 namespace zenyaml
