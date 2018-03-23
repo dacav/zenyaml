@@ -107,11 +107,6 @@ namespace zenyaml
         return get_mapping()[key];
     }
 
-    const Node& Node::operator[](const char* key) const
-    {
-        return get_mapping()[key];
-    }
-
     Node::operator const std::string&() const
     {
         return get_scalar();

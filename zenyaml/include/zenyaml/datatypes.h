@@ -37,7 +37,6 @@ namespace zenyaml
 
             const Node& operator[](unsigned idx) const;
             const Node& operator[](const std::string& key) const;
-            const Node& operator[](const char* key) const;
             operator const std::string&() const;
 
             Node() = default;
