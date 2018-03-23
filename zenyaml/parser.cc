@@ -39,9 +39,13 @@ namespace
 
 namespace zenyaml
 {
-
     Parser::Parser(const std::string& filepath)
-        : infile(fopen(filepath.c_str(), "r"), fclose)
+        : Parser(fopen(filepath.c_str(), "r"))
+    {
+    }
+
+    Parser::Parser(FILE* f)
+        : infile(f, fclose)
         , more(false)
     {
         yaml_parser_initialize(&parser);
@@ -95,7 +99,6 @@ namespace zenyaml
                 );
         }
     }
-
 
     bool Parser::has_document() const
     {

@@ -20,6 +20,7 @@ namespace zenyaml
     {
         public:
             Parser(const std::string& path);
+            Parser(FILE* infile);
             ~Parser();
 
             bool has_document() const;
