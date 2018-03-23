@@ -1,6 +1,7 @@
-check_PROGRAMS = basic_test
+check_PROGRAMS = happypath
 TESTS = $(check_PROGRAMS)
 
-basic_test_SOURCES = basic_test.cc
-basic_test_LDADD = ../zenyaml/libzenyaml.la -lyaml
-basic_test_LDFLAGS = -no-install
+happypath_CPPFLAGS = -I$(top_srcdir)/zenyaml/include/
+happypath_SOURCES = happypath.cc
+happypath_LDADD = ../zenyaml/libzenyaml.la -lyaml
+happypath_LDFLAGS = -no-install
