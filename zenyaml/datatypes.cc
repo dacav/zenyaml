@@ -8,7 +8,6 @@ namespace zenyaml
     {
     }
 
-
     struct ScalarStorage : public Node::Storage
     {
         std::string string;
@@ -17,6 +16,12 @@ namespace zenyaml
             : Node::Storage(Node::NodeType::SCALAR)
             , string(s)
         { }
+
+        virtual std::ostream& print_to(std::ostream& stream,
+                                       int indent) const override
+        {
+            return stream << "\"" << string << "\"";
+        }
     };
 
     struct SequenceStorage : public Node::Storage
@@ -28,6 +33,21 @@ namespace zenyaml
             , sequence(v)
         { }
 
+        virtual std::ostream& print_to(std::ostream& stream,
+                                       int indent) const override
+        {
+            std::string prefix(4 * indent, ' ');
+            prefix += "- ";
+
+            stream << std::endl;
+            for (const Node& sub : sequence) {
+                stream << prefix;
+                sub.storage->print_to(stream, indent + 1);
+                stream << std::endl;
+            }
+
+            return stream;
+        }
     };
 
     struct MappingStorage : public Node::Storage
@@ -38,6 +58,22 @@ namespace zenyaml
             : Node::Storage(Node::NodeType::MAPPING)
             , mapping(m)
         { }
+
+        virtual std::ostream& print_to(std::ostream& stream,
+                                       int indent) const override
+        {
+            std::string prefix(4 * indent, ' ');
+            prefix += "\"";
+
+            stream << std::endl;
+            for (const auto& pair : mapping) {
+                stream << prefix << pair.first << "\": ";
+                pair.second.storage->print_to(stream, indent + 1);
+                stream << std::endl;
+            }
+
+            return stream;
+        }
     };
 
     Node::Node(NodeType t)
@@ -110,6 +146,11 @@ namespace zenyaml
     Node::operator const std::string&() const
     {
         return get_scalar();
+    }
+
+    std::ostream& operator<<(std::ostream& stream, const zenyaml::Node& node)
+    {
+        return node.storage->print_to(stream, 0);
     }
 
 } // namespace zenyaml

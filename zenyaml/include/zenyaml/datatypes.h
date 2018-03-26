@@ -4,6 +4,7 @@
 #include <exception>
 #include <memory>
 #include <vector>
+#include <ostream>
 #include <map>
 
 namespace zenyaml
@@ -47,6 +48,7 @@ namespace zenyaml
             {
                 Storage(NodeType type);
                 virtual ~Storage() = default;
+                virtual std::ostream& print_to(std::ostream& stream, int indent) const = 0;
 
                 NodeType type;
             };
@@ -56,6 +58,11 @@ namespace zenyaml
             friend class MappingStorage;
 
             std::shared_ptr<Storage> storage;
+
+            friend std::ostream& operator<<(std::ostream& stream,
+                                            const zenyaml::Node& node);
     };
+
+    std::ostream& operator<<(std::ostream& stream, const zenyaml::Node& node);
 
 } // namespace zenyaml
