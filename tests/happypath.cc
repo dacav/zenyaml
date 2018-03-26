@@ -1,4 +1,4 @@
-#include <zenyaml/parser.h>
+#include <zenyaml/zenyaml.h>
 
 #include <cassert>
 #include <iostream>
